@@ -1,3 +1,3 @@
 <?php
 
-\Soba\Route::get("hello", "world#asd");
+Soba\Route::get("hello", "world#asd");
