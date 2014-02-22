@@ -45,7 +45,18 @@ class Router
 
   public function is_current_route($route)
   {
+    // First of all, check the route HTTP method
     if ($route->method != $this->_method) return FALSE;
+
+    // Second, replace route variables with Regexps
+    if (strpos($route->route, ':') !== -1)
+    {
+      preg_match(':([^:/]+', $route->route, $matches);
+      if ($matches)
+      {
+
+      }
+    }
   }
 
   /*
