@@ -12,10 +12,19 @@ class Router
 {
   private $_routes;
 
+  private $_method;
+
+  public function __construct()
+  {
+    parent::__construct();
+
+    $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
+  }
+
   /*
    * Adds a route to the router
    */
-  public function addRoute($route)
+  public function add_route($route)
   {
     $this->_routes[] = $route;
   }
@@ -34,6 +43,11 @@ class Router
     return $this->_routes;
   }
 
+  public function is_current_route($route)
+  {
+    if ($route->method != $this->_method) return FALSE;
+  }
+
   /*
    * Runs the router with the current request
    */
@@ -41,7 +55,10 @@ class Router
   {
     foreach ($this->routes() as $route)
     {
-      var_dump($route);
+      if ($this->is_current_route($route))
+      {
+        var_dump($route);
+      }
     }
   }
 }

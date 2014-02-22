@@ -11,24 +11,24 @@ namespace Soba;
 class Route
 {
   // HTTP method: GET/POST/PATCH/DELETE/
-  private $_method;
+  public $method;
 
   // E.g. 'users/:id'
-  private $_route;
+  public $route;
 
   // Callback
-  private $_callback;
+  public $callback;
 
   public function __construct($method = 'GET', $route, $callback)
   {
-    $this->_method = $method;
-    $this->_route = $route;
-    $this->_callback = $callback;
+    $this->method = strtoupper($method);
+    $this->route = $route;
+    $this->callback = $callback;
   }
 
   public static function get($route, $callback)
   {
     $route = new \Soba\Route('GET', $route, $callback);
-    \Soba\Application::instance()->router->addRoute($route);
+    \Soba\Application::instance()->router->add_route($route);
   }
 }
