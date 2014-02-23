@@ -14,9 +14,12 @@ class Router
 
   private $_method;
 
+  private $_request_uri;
+
   public function __construct()
   {
     $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
+    $this->_request_uri = $_SERVER['REQUEST_URI'];
   }
 
   /*
@@ -41,12 +44,15 @@ class Router
     return $this->_routes;
   }
 
+  /*
+   * Checks whether the given route is the current one
+   */
   public function is_current_route($route)
   {
     // First of all, check the route HTTP method
     if ($route->method != $this->_method) return FALSE;
 
-    $route = $route->route;
+    $route = ltrim($route->route, '/');
 
     // Second, replace route variables with Regexps
     if (strpos($route, ':') !== -1)
@@ -60,6 +66,8 @@ class Router
         }
       }
     }
+
+    return preg_match('/' . $route, $this->_request_uri) ? true : false
   }
 
   /*
