@@ -4,4 +4,4 @@
  */
 
 //A simple GET route
-Soba\Route::get("hello", "world#asd");
+Soba\Route::get("users/:id", "users#show");

@@ -16,8 +16,6 @@ class Router
 
   public function __construct()
   {
-    parent::__construct();
-
     $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
   }
 
@@ -48,13 +46,18 @@ class Router
     // First of all, check the route HTTP method
     if ($route->method != $this->_method) return FALSE;
 
+    $route = $route->route;
+
     // Second, replace route variables with Regexps
-    if (strpos($route->route, ':') !== -1)
+    if (strpos($route, ':') !== -1)
     {
-      preg_match(':([^:/]+', $route->route, $matches);
+      preg_match('(:[A-z_]+)', $route, $matches);
       if ($matches)
       {
-
+        foreach ($matches as $match)
+        {
+          $route = str_replace($match, '([^/]+)', $route);
+        }
       }
     }
   }
